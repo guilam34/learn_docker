@@ -2,21 +2,33 @@ sudo: required
 services:
   - docker
 before_install:
-  - cd frontend
-  - docker build -t glam/frontend -f Dockerfile.dev .
+  - cd complex
+  - docker build -t glam/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run glam/frontend npm run test -- --coverage
+  - docker run glam/react-test npm run test -- --coverage
 
-deploy:
-  provider: elasticbeanstalk
-  region: "us-east-2"
-  app: "docker-react"
-  env: "DockerReact-env"
-  bucket_name: "elasticbeanstalk-us-east-2-696729388474"
-  bucket_path: "docker-react"
-  on:
-    branch: master
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key:
-    secure: "$AWS_SECRET_KEY"
+after_success:
+  - docker build -t glam/client ./client
+  - docker build -t glam/nginx ./nginx
+  - docker build -t glam/server ./server
+  - docker build -t glam/worker ./worker
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push glam/client
+  - docker push glam/nginx
+  - docker push glam/server
+  - docker push glam/worker
+
+# deploy:
+#   provider: elasticbeanstalk
+#   region: "us-east-2"
+#   app: "docker-react"
+#   env: "DockerReact-env"
+#   bucket_name: "elasticbeanstalk-us-east-2-696729388474"
+#   bucket_path: "docker-react"
+#   on:
+#     branch: master
+#   access_key_id: $AWS_ACCESS_KEY
+#   secret_access_key:
+#     secure: "$AWS_SECRET_KEY"
