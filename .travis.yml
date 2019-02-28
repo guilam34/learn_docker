@@ -3,22 +3,22 @@ services:
   - docker
 before_install:
   - cd complex
-  - docker build -t glam/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t sterelus/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run glam/react-test npm run test -- --coverage
+  - docker run sterelus/react-test npm run test -- --coverage
 
 after_success:
-  - docker build -t glam/client ./client
-  - docker build -t glam/nginx ./nginx
-  - docker build -t glam/server ./server
-  - docker build -t glam/worker ./worker
+  - docker build -t sterelus/client ./client
+  - docker build -t sterelus/nginx ./nginx
+  - docker build -t sterelus/server ./server
+  - docker build -t sterelus/worker ./worker
 
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker push glam/client
-  - docker push glam/nginx
-  - docker push glam/server
-  - docker push glam/worker
+  - docker push sterelus/client
+  - docker push sterelus/nginx
+  - docker push sterelus/server
+  - docker push sterelus/worker
 
 # deploy:
 #   provider: elasticbeanstalk
