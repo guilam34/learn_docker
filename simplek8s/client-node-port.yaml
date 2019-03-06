@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-node-port
+spec:
+  type: NodePort
+  ports:
+      # port used by other pods in node to access the client-pod
+    - port: 3050
+      # port that k8s will route incoming requests for the client-pod to, e.g. 3050 -> 3000, 31515 -> 3000
+      targetPort: 3000
+      # port used to access client-pod from outside the current node
+      nodePort: 31515
+  selector:
+    component: web
