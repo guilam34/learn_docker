@@ -1,3 +1,5 @@
+# Services auto-reroute requests when a deployment gets updated and new pods are brought up (will have diff PI addr potentially)
+# This provides clients a persistent address to access deployment pods through
 apiVersion: v1
 kind: Service
 metadata:
