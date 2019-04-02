@@ -1,34 +1,8 @@
 sudo: required
-services:
+serviers:
   - docker
 before_install:
-  - cd complex
-  - docker build -t sterelus/react-test -f ./client/Dockerfile.dev ./client
-
-script:
-  - docker run sterelus/react-test npm run test -- --coverage
-
-after_success:
-  - docker build -t sterelus/client ./client
-  - docker build -t sterelus/nginx ./nginx
-  - docker build -t sterelus/server ./server
-  - docker build -t sterelus/worker ./worker
-
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker push sterelus/client
-  - docker push sterelus/nginx
-  - docker push sterelus/server
-  - docker push sterelus/worker
-
-deploy:
-  provider: elasticbeanstalk
-  region: "us-east-2"
-  app: "multi-docker"
-  env: "MultiDocker-env"
-  bucket_name: "elasticbeanstalk-us-east-2-696729388474"
-  bucket_path: "docker-multi"
-  on:
-    branch: master
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key:
-    secure: "$AWS_SECRET_KEY"
+  - curl https://sdk.cloud.google.com | bash > /dev/null;
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  - gcloud components update kubectl
+  - gcloud auth activate-service-account --key-file service-account.json
