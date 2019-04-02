@@ -5,6 +5,7 @@ kind: Service
 metadata:
   name: client-node-port
 spec:
+  # really only good for dev purposes since it exposes the pod to the outside world at some port which you don't want in a prod env
   type: NodePort
   ports:
       # port used by other pods in node to access the client-pod

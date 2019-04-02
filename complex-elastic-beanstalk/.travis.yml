@@ -3,23 +3,23 @@ services:
   - docker
 
 before_install:
-  - docker build -t glam/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t sterelus/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run glam/react-test npm test -- --coverage
+  - docker run sterelus/react-test npm test -- --coverage
 
 after_success:
-  - docker build -t glam/client ./client
-  - docker build -t glam/nginx ./nginx
-  - docker build -t glam/server ./server
-  - docker build -t glam/worker ./worker
+  - docker build -t sterelus/multi-client ./client
+  - docker build -t sterelus/multi-nginx ./nginx
+  - docker build -t sterelus/multi-server ./server
+  - docker build -t sterelus/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
-  - docker push glam/client
-  - docker push glam/nginx
-  - docker push glam/server
-  - docker push glam/worker
+  - docker push sterelus/multi-client
+  - docker push sterelus/multi-nginx
+  - docker push sterelus/multi-server
+  - docker push sterelus/multi-worker
 
 deploy:
   provider: elasticbeanstalk

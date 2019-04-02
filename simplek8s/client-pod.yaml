@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
     - name: client
-      image: sterelus/worker
+      image: sterelus/multi-client
       ports:
-        - containerPort: 9999 
+        - containerPort: 3000 
