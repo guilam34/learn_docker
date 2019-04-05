@@ -15,6 +15,7 @@ spec:
     spec:
       containers:
         - name: client
+          # implicitly uses latest
           image: sterelus/multi-client
           ports:
             - containerPort: 3000
