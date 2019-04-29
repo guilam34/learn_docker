@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
+metadata:
   name: worker-deployment
 spec:
   replicas: 1
-  selector: 
+  selector:
     matchLabels:
       component: worker
   template:
@@ -19,4 +19,4 @@ spec:
             - name: REDIS_HOST
               value: redis-cluster-ip-service
             - name: REDIS_PORT
-              value: "6379"
+              value: '6379'
